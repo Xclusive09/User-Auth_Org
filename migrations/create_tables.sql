@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS users (
+  userId UUID PRIMARY KEY,
+  firstName VARCHAR(255) NOT NULL,
+  lastName VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  phone VARCHAR(20),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS organisations (
+  orgId UUID PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS user_organisations (
+  userId UUID REFERENCES users(userId) ON DELETE CASCADE,
+  orgId UUID REFERENCES organisations(orgId) ON DELETE CASCADE,
+  PRIMARY KEY (userId, orgId)
+);
